@@ -1,0 +1,28 @@
+(page "index.html"
+  (:require
+    [hoplon.jquery :as jQuery]))
+
+(def overhead (cell 0))
+
+(defelem number-input [{:keys [to]} [lbl]]
+  (let [val (cell @to)]
+    (add-watch val :input #(let [newVal %4
+                                 i (js/parseInt newVal)
+                                 _ (print i)
+                                 nan (js/isNaN i)]
+
+                              (reset! to (if nan 0 i))))
+    (div
+      (label :style (cell= (if (js/isNaN (js/parseInt val)) "color:red" "")) lbl)
+      (input
+        :value val
+        :input #(reset! val @%)
+        :click #(this-as field (.select (js/jQuery field)))))))
+
+(html
+  (head
+    (html-meta :charset "utf-8")
+    (link :href "app.css" :rel "stylesheet"))
+  (body
+    (number-input :to overhead "Overhead: ")
+    (p overhead)))

@@ -1,2 +1,0 @@
-{:require [parallelism-calculator.core]
- :compiler-options {:asset-path "js/main.out"}}
