@@ -1,8 +1,75 @@
-
-label.invalid {
-  color: red
+html {
+  height: 100%;
 }
 
-label.valid {
-  color: green
+body {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  width: 20%;
+  min-width: 200px;
+  height: 100%;
+  padding: 0 0.5em;
+  background: #ccc;
+}
+
+#graph {
+  width: 1px;
+  height: 100%;
+  flex: 1 1;
+  background: green;
+}
+
+.field .input.invalid input {
+  background: #faa;
+}
+
+.field .input.invalid input:focus {
+  background: #f88;
+}
+
+.field {
+  line-height: 2;
+}
+
+.field .input {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.field .input label {
+  display: inline-block;
+  width: 80px;
+  min-width: 80px;
+}
+
+.field .input input {
+  border: 0;
+  border-bottom: 1px solid black;
+  background: transparent;
+  padding: 2px 5px;
+  width: 50px;
+  height: 1.2em;
+  flex: 1 1;
+}
+
+.field .input input:focus {
+  outline: none;
+  background: #aaa;
+}
+
+.field .description {
+  line-height: 1.5;
+  font-size: smaller;
+}
+
+.field  .input + p {
+  margin-top: 0;
 }

@@ -8,7 +8,8 @@
                  [adzerk/boot-reload "0.4.13"]
                  [hoplon "6.0.0-alpha17"]
                  [org.clojure/tools.nrepl "0.2.12"]
-                 [pandeiro/boot-http "0.7.6"]])
+                 [pandeiro/boot-http "0.7.6"]
+                 [cljsjs/chartjs "2.3.0-0"]])
 
 (require
   '[adzerk.boot-cljs :refer [cljs]]
