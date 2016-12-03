@@ -2,6 +2,7 @@ machine:
   java:
     version: openjdk8
   environment:
+    BOOT_JVM_OPTIONS: -Xmx3g -XX:MaxPermSize=300m -Xverify:none
     GIT_COMMITTER_NAME: "CircleCI"
     GIT_COMMITTER_EMAIL: "matt.scharley+circleci@gmail.com"
 
