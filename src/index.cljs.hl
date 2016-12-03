@@ -30,11 +30,20 @@
                                                  _ (.flush chart)]))]))]
     elem))
 
+(defn calc-efficiency [overhead runtime x]
+  ((fn [x] (+ (* overhead x) (/ runtime x)))
+   (if (= x 0) 0.8 x)))
+(defn calc-runtime [overhead runtime x]
+  ((fn [x] (+ overhead (/ runtime x)))
+   (if (= x 0) 0.8 x)))
+
 (def overhead (cell 5))
 (def runtime (cell 60))
 (def max-threads (cell 16))
-(def graph-data (cell= {:type "spline" :columns [(conj (map (fn [x] (if (= x 0) 0 (+ (* x overhead) (/ runtime x)))) (range (inc max-threads))) "Efficiency")]}))
-
+(def xs (cell= (range 1 max-threads)))
+(def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
+                                                        (conj (map (partial calc-efficiency overhead runtime) xs) "Efficiency")
+                                                        (conj (map (partial calc-runtime overhead runtime) xs) "Wall clock runtime")]}))
 (html
   (head
     (html-meta :charset "utf-8")
