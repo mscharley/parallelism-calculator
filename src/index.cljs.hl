@@ -1,7 +1,7 @@
 (page "index.html"
   (:require [cljsjs.c3]))
 
-(defelem number-input [{:keys [to name description]} _]
+(defelem number-input [{:keys [to name]} children]
   (defn from-string [value] (js/parseFloat value))
   (defn validity [value] (not (js/isNaN (from-string value))))
   (let [val (cell @to)
@@ -17,17 +17,17 @@
           :value val
           :input #(reset! val @%)
           :click #(this-as field (.select (js/jQuery field)))))
-      (if description (p :class "description" description)))))
+      children)))
 
 (defelem graph [{:keys [data axis point size]} _]
   (let [elem (div :class "graph")
-        _ (with-timeout 100 (let [chart (.generate js/c3 (clj->js {:bindto elem
-                                                                   :data @data
-                                                                   :axis axis
-                                                                   :point point
-                                                                   :size size}))
-                                  _ (cell= (let [_ (.load chart (clj->js data))
-                                                 _ (.flush chart)]))]))]
+        _ (with-timeout 1000 (let [chart (.generate js/c3 (clj->js {:bindto elem
+                                                                    :data @data
+                                                                    :axis axis
+                                                                    :point point
+                                                                    :size size}))
+                                   _ (cell= (let [_ (.load chart (clj->js data))
+                                                  _ (.flush chart)]))]))]
     elem))
 
 (defn calc-efficiency [overhead runtime x]
@@ -40,10 +40,11 @@
 (def overhead (cell 5))
 (def runtime (cell 60))
 (def max-threads (cell 16))
-(def xs (cell= (range 1 max-threads)))
+(def xs (cell= (range 1 (inc max-threads))))
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
                                                         (conj (map (partial calc-efficiency overhead runtime) xs) "Efficiency")
                                                         (conj (map (partial calc-runtime overhead runtime) xs) "Wall clock runtime")]}))
+
 (html
   (head
     (title "Parallelism calculator")
@@ -54,9 +55,12 @@
     (html-meta :name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"))
   (body
     (div :class "sidebar"
-      (number-input :to overhead    :name "Overhead:"    :description "This is the overhead for starting a single parallel thread.")
-      (number-input :to runtime     :name "Runtime:"     :description "This is the total runtime for the work you have to do.")
-      (number-input :to max-threads :name "Max Threads:" :description "The maximum number of threads in your algorithm."))
+      (number-input :to overhead    :name "Overhead:"
+        (p :class "description" "This is the overhead for starting a single parallel thread."))
+      (number-input :to runtime     :name "Runtime:"
+        (p :class "description" "This is the total runtime for the work you have to do."))
+      (number-input :to max-threads :name "Max Threads:"
+        (p :class "description" "The maximum number of threads in your algorithm.")))
     (div :class "graph-wrapper"
       (graph :data graph-data :axis {:x {:tick {:culling {:max "off"}}}
                                      :y {:min 0}}))))
