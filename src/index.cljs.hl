@@ -2,8 +2,19 @@
   (:require [cljsjs.c3]
             [clojure.string :as str]))
 
+(def default-overhead 5)
+(def overhead (cell default-overhead))
+(def default-runtime 60)
+(def runtime (cell default-runtime))
+(def default-max-threads 16)
+(def max-threads (cell default-max-threads))
+
 (def route (route-cell))
-(def params (cell= (map js/parseFloat (str/split (subs route 1) #"/"))))
+(def params (cell= (map js/parseFloat (str/split (subs (if (= nil route) (str "#" default-max-threads "/" default-overhead "/" default-runtime) route) 1) #"/"))))
+
+(def param-inputs [max-threads overhead runtime])
+(def param-updates (cell= (run! #(reset! (get %1 0) (get %1 1)) (map vector param-inputs params))))
+(def url-updates (cell= (set! (.-hash (.-location js/document)) (str "#" max-threads "/" overhead "/" runtime))))
 
 (defelem number-input [{:keys [to name]} children]
   (defn from-string [value] (js/parseFloat value))
@@ -41,13 +52,6 @@
 (defn calc-runtime [overhead runtime x]
   ((fn [x] (+ overhead (/ runtime x)))
    (if (= x 0) 0.1 x)))
-
-(def overhead (cell 5))
-(def runtime (cell 60))
-(def max-threads (cell 16))
-(def param-inputs [max-threads overhead runtime])
-(def param-updates (cell= (run! #(reset! (get %1 0) (get %1 1)) (map vector param-inputs params))))
-(def url-updates (cell= (set! (.-hash (.-location js/document)) (str "#" max-threads "/" overhead "/" runtime))))
 
 (def xs (cell= (let [_ (print max-threads) _ (print (inc max-threads))] (range 1 (inc max-threads)))))
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
