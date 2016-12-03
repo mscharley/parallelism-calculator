@@ -6,7 +6,6 @@ cljs.core.cst$sym$tag = new cljs.core.Symbol(null,"tag","tag",350170304,null);
 cljs.core.cst$sym$idx = new cljs.core.Symbol(null,"idx","idx",-1600747296,null);
 cljs.core.cst$kw$rel = new cljs.core.Keyword(null,"rel","rel",1378823488);
 cljs.core.cst$kw$data_SLASH__STAR_ = new cljs.core.Keyword("data","*","data/*",-1283013312);
-cljs.core.cst$kw$description = new cljs.core.Keyword(null,"description","description",-1428560544);
 cljs.core.cst$sym$_AMPERSAND_ = new cljs.core.Symbol(null,"&","&",-2144855648,null);
 cljs.core.cst$sym$stepper = new cljs.core.Symbol(null,"stepper","stepper",1159163296,null);
 cljs.core.cst$sym$uuid = new cljs.core.Symbol(null,"uuid","uuid",-504564192,null);
