@@ -7,8 +7,6 @@ body {
   flex-direction: row;
   align-items: flex-start;
   height: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 .sidebar {
@@ -16,22 +14,19 @@ body {
   min-width: 200px;
   height: 100%;
   padding: 0 0.5em;
-  background: #ccc;
+  background: #fff;
+  border-right: 1px solid #ccc;
 }
 
-#graph {
+.graph-wrapper {
   width: 1px;
   height: 100%;
   flex: 1 1;
-  background: green;
 }
 
-.field .input.invalid input {
-  background: #faa;
-}
-
-.field .input.invalid input:focus {
-  background: #f88;
+.graph {
+  width: 100%;
+  height: 100%;
 }
 
 .field {
@@ -46,8 +41,8 @@ body {
 
 .field .input label {
   display: inline-block;
-  width: 80px;
-  min-width: 80px;
+  width: 105px;
+  min-width: 105px;
 }
 
 .field .input input {
@@ -62,7 +57,15 @@ body {
 
 .field .input input:focus {
   outline: none;
-  background: #aaa;
+  background: #ddd;
+}
+
+.field .input.invalid input {
+  background: #faa;
+}
+
+.field .input.invalid input:focus {
+  background: #f88;
 }
 
 .field .description {

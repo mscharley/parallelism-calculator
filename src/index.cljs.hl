@@ -1,17 +1,13 @@
 (page "index.html"
-  (:require [cljsjs.chartjs]))
+  (:require [cljsjs.c3]))
 
-(def overhead (cell 0))
-(def runtime (cell 0))
-
-(defelem number-input [{:keys [to name description]} []]
+(defelem number-input [{:keys [to name description]} _]
   (defn from-string [value] (js/parseFloat value))
   (defn validity [value] (not (js/isNaN (from-string value))))
   (let [val (cell @to)
         valid (cell= (validity val))]
     (add-watch val :input #(let [newVal %4
                                  i (from-string newVal)
-                                 _ (print i)
                                  valid (validity newVal)]
                               (reset! to (if valid i 0))))
     (div :class "field"
@@ -23,13 +19,27 @@
           :click #(this-as field (.select (js/jQuery field)))))
       (if description (p :class "description" description)))))
 
+(defelem graph [{:keys [data]} _]
+  (let [elem (div :class "graph")
+        chart (with-timeout 100 (.generate js/c3 (clj->js {:bindto elem
+                                                           :data data})))]
+    elem))
+
+(def overhead (cell 5))
+(def runtime (cell 60))
+(def max-threads (cell 16))
+
 (html
   (head
     (html-meta :charset "utf-8")
+    (link :href "normalize.css" :rel "stylesheet")
     (link :href "app.css" :rel "stylesheet")
-    (script :src "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.js"))
+    (html-meta :name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"))
   (body
     (div :class "sidebar"
-      (number-input :to overhead :name "Overhead: " :description "This is the overhead for starting a single parallel branch.")
-      (number-input :to runtime  :name "Runtime: "  :description "This is the total runtime for the work you have to do."))
-    (div :id "graph")))
+      (number-input :to overhead    :name "Overhead:"    :description "This is the overhead for starting a single parallel thread.")
+      (number-input :to runtime     :name "Runtime:"     :description "This is the total runtime for the work you have to do.")
+      (number-input :to max-threads :name "Max Threads:" :description "The maximum number of threads in your algorithm."))
+    (div :class "graph-wrapper"
+      (graph :data {:columns [["data1", 30, 200, 100, 400, 150, 250],
+                              ["data2", 50, 20, 10, 40, 15, 25]]}))))

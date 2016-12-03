@@ -9,7 +9,7 @@
                  [hoplon "6.0.0-alpha17"]
                  [org.clojure/tools.nrepl "0.2.12"]
                  [pandeiro/boot-http "0.7.6"]
-                 [cljsjs/chartjs "2.3.0-0"]])
+                 [cljsjs/c3 "0.4.11-0"]])
 
 (require
   '[adzerk.boot-cljs :refer [cljs]]
@@ -21,7 +21,7 @@
  "Launch Development Environment"
  []
  (comp
-  (serve :dir "target")
+  (serve :dir "target" :httpkit true) ;; httpkit required for proper utf-8 support
   (watch)
   (speak)
   (hoplon)
