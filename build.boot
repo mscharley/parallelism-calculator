@@ -30,13 +30,6 @@
   (cljs)
   (target :dir #{"target"})))
 
-(deftask build
-  "Run all build tasks"
-  []
-  (comp
-    (cljs)
-    (target :dir #{"target"})))
-
 (deftask prod
   "Build for production deployment."
   []

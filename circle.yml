@@ -1,0 +1,11 @@
+machine:
+  java:
+    version: openjdk8
+
+dependencies:
+  pre:
+    - cd $HOME/bin && curl -fsSLo boot https://github.com/boot-clj/boot-bin/releases/download/latest/boot.sh && chmod 755 boot
+
+test:
+  override:
+    - boot prod
