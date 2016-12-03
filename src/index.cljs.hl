@@ -19,20 +19,27 @@
           :click #(this-as field (.select (js/jQuery field)))))
       (if description (p :class "description" description)))))
 
-(defelem graph [{:keys [data]} _]
+(defelem graph [{:keys [data axis point size]} _]
   (let [elem (div :class "graph")
-        chart (with-timeout 100 (.generate js/c3 (clj->js {:bindto elem
-                                                           :data data})))]
+        _ (with-timeout 100 (let [chart (.generate js/c3 (clj->js {:bindto elem
+                                                                   :data @data
+                                                                   :axis axis
+                                                                   :point point
+                                                                   :size size}))
+                                  _ (cell= (let [_ (.load chart (clj->js data))
+                                                 _ (.flush chart)]))]))]
     elem))
 
 (def overhead (cell 5))
 (def runtime (cell 60))
 (def max-threads (cell 16))
+(def graph-data (cell= {:type "spline" :columns [(conj (map (fn [x] (if (= x 0) 0 (+ (* x overhead) (/ runtime x)))) (range (inc max-threads))) "Efficiency")]}))
 
 (html
   (head
     (html-meta :charset "utf-8")
     (link :href "normalize.css" :rel "stylesheet")
+    (link :href "c3.css" :rel "stylesheet")
     (link :href "app.css" :rel "stylesheet")
     (html-meta :name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"))
   (body
@@ -41,5 +48,5 @@
       (number-input :to runtime     :name "Runtime:"     :description "This is the total runtime for the work you have to do.")
       (number-input :to max-threads :name "Max Threads:" :description "The maximum number of threads in your algorithm."))
     (div :class "graph-wrapper"
-      (graph :data {:columns [["data1", 30, 200, 100, 400, 150, 250],
-                              ["data2", 50, 20, 10, 40, 15, 25]]}))))
+      (graph :data graph-data :axis {:x {:tick {:culling {:max "off"}}}
+                                     :y {:min 0}}))))
