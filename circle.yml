@@ -10,6 +10,7 @@ checkout:
   post:
     # Variables don't seem to be exported so processes can't see them by default.
     - git config --global user.name "$GIT_COMMITTER_NAME" && git config --global user.email "$GIT_COMMITTER_EMAIL"
+    - sudo sysctl fs.inotify.max_user_watches=524288
 
 dependencies:
   pre:
