@@ -1,5 +1,9 @@
 (page "index.html"
-  (:require [cljsjs.c3]))
+  (:require [cljsjs.c3]
+            [clojure.string :as str]))
+
+(def route (route-cell))
+(def params (cell= (map js/parseFloat (str/split (subs route 1) #"/"))))
 
 (defelem number-input [{:keys [to name]} children]
   (defn from-string [value] (js/parseFloat value))
@@ -10,6 +14,7 @@
                                  i (from-string newVal)
                                  valid (validity newVal)]
                               (reset! to (if valid i 0))))
+    (add-watch to :input #(reset! val %4))
     (div :class "field"
       (div :class (cell= (if valid {:input true :invalid false} {:input true :invalid true}))
         (label name)
@@ -32,15 +37,19 @@
 
 (defn calc-efficiency [overhead runtime x]
   ((fn [x] (+ (* overhead x) (/ runtime x)))
-   (if (= x 0) 0.8 x)))
+   (if (= x 0) 0.1 x)))
 (defn calc-runtime [overhead runtime x]
   ((fn [x] (+ overhead (/ runtime x)))
-   (if (= x 0) 0.8 x)))
+   (if (= x 0) 0.1 x)))
 
 (def overhead (cell 5))
 (def runtime (cell 60))
 (def max-threads (cell 16))
-(def xs (cell= (range 1 (inc max-threads))))
+(def param-inputs [max-threads overhead runtime])
+(def param-updates (cell= (run! #(reset! (get %1 0) (get %1 1)) (map vector param-inputs params))))
+(def url-updates (cell= (set! (.-hash (.-location js/document)) (str "#" max-threads "/" overhead "/" runtime))))
+
+(def xs (cell= (let [_ (print max-threads) _ (print (inc max-threads))] (range 1 (inc max-threads)))))
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
                                                         (conj (map (partial calc-efficiency overhead runtime) xs) "Efficiency")
                                                         (conj (map (partial calc-runtime overhead runtime) xs) "Wall clock runtime")]}))

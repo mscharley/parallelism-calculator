@@ -6,9 +6,9 @@
                  [org.clojure/clojurescript "1.9.293"]
                  [adzerk/boot-cljs "1.7.228-2"]
                  [adzerk/boot-reload "0.4.13"]
-                 [hoplon "6.0.0-alpha17"]
                  [org.clojure/tools.nrepl "0.2.12"]
                  [pandeiro/boot-http "0.7.6"]
+                 [hoplon "6.0.0-alpha17"]
                  [cljsjs/c3 "0.4.11-0"]])
 
 (require
