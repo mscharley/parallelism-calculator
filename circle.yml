@@ -23,9 +23,10 @@ deployment:
     branch: master
     commands:
       - rm -r target/
-      - git worktree add -b gh-pages target origin/gh-pages
+      - git worktree add -b gh-pages gh-pages origin/gh-pages
       - boot prod
-      - cp circle.yml target/
+      - cp -r target/* gh-pages/
+      - cp circle.yml gh-pages/
       - 'cd target && if [[ $(( `git diff --name-only | wc -l` )) -ne 0 ]]; then git add . && git commit -m "Updated documentation build." && git push origin gh-pages; fi'
 
 general:
