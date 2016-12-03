@@ -46,6 +46,7 @@
                                                         (conj (map (partial calc-runtime overhead runtime) xs) "Wall clock runtime")]}))
 (html
   (head
+    (title Parallelism calculator)
     (html-meta :charset "utf-8")
     (link :href "normalize.css" :rel "stylesheet")
     (link :href "c3.css" :rel "stylesheet")
