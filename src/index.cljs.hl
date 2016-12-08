@@ -3,31 +3,31 @@
             [clojure.string :as str]))
 
 (def default-overhead 5)
-(def overhead (cell default-overhead))
+(def overhead (cell [:value default-overhead]))
 (def default-runtime 60)
-(def runtime (cell default-runtime))
+(def runtime (cell [:value default-runtime]))
 (def default-max-threads 16)
-(def max-threads (cell default-max-threads))
+(def max-threads (cell [:value default-max-threads]))
 
 (def route (route-cell))
 (def params (cell= (map js/parseFloat (str/split (subs (if (= nil route) (str "#" default-max-threads "/" default-overhead "/" default-runtime) route) 1) #"/"))))
 
 (def param-inputs [max-threads overhead runtime])
-(def param-updates (cell= (run! #(reset! (get %1 0) (get %1 1)) (map vector param-inputs params))))
-(def url-updates (cell= (set! (.-hash (.-location js/document)) (str "#" max-threads "/" overhead "/" runtime))))
+(def param-updates (cell= (run! #(reset! (get %1 0) [:value (get %1 1)]) (map vector param-inputs params))))
+(def url-updates (cell= (set! (.-hash (.-location js/document)) (str "#" (get max-threads 1) "/" (get overhead 1) "/" (get runtime 1)))))
 
 (defelem number-input [{:keys [to name]} children]
   (defn from-string [value] (js/parseFloat value))
   (defn validity [value] (not (js/isNaN (from-string value))))
-  (let [val (cell @to)
-        valid (cell= (validity val))]
-    (add-watch val :input #(let [newVal %4
-                                 i (from-string newVal)
-                                 valid (validity newVal)]
-                              (reset! to (if valid i 0))))
-    (add-watch to :input #(reset! val %4))
+  (defn update-to! [value] (reset! to value))
+  (let [val (cell (get @to 1))
+        update-to! (fn [value] (reset! to value))
+        update-val! (fn [value] (reset! val value))
+        valid (cell= (validity val))
+        _ (cell= (update-val! (get to 1)))
+        _ (cell= (update-to! (if valid [:value val] [:error "Value is invalid"])))]
     (div :class "field"
-      (div :class (cell= (if valid {:input true :invalid false} {:input true :invalid true}))
+      (div :class (cell= {:input true :invalid (not valid)})
         (label name)
         (input
           :value val
@@ -55,8 +55,8 @@
 
 (def xs (cell= (let [_ (print max-threads) _ (print (inc max-threads))] (range 1 (inc max-threads)))))
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
-                                                        (conj (map (partial calc-efficiency overhead runtime) xs) "Efficiency")
-                                                        (conj (map (partial calc-runtime overhead runtime) xs) "Wall clock runtime")]}))
+                                                        (conj (map (partial calc-efficiency (get overhead 1) (get runtime 1)) xs) "Efficiency")
+                                                        (conj (map (partial calc-runtime (get overhead 1) (get runtime 1)) xs) "Wall clock runtime")]}))
 
 (html
   (head
@@ -75,5 +75,6 @@
       (number-input :to max-threads :name "Max Threads:"
         (p :class "description" "The maximum number of threads in your algorithm.")))
     (div :class "graph-wrapper"
-      (graph :data graph-data :axis {:x {:tick {:culling {:max "off"}}}
-                                     :y {:min 0}}))))
+      (graph :data graph-data
+             :axis {:x {:tick {:culling {:max "off"}}}
+                    :y {:min 0}}))))
