@@ -153,6 +153,7 @@ cljs.core.cst$kw$focus = new cljs.core.Keyword(null,"focus","focus",234677911);
 cljs.core.cst$kw$attr_SLASH__STAR_ = new cljs.core.Keyword("attr","*","attr/*",-1283077225);
 cljs.core.cst$sym$_hash = new cljs.core.Symbol(null,"_hash","_hash",-2130838312,null);
 cljs.core.cst$kw$point = new cljs.core.Keyword(null,"point","point",1813198264);
+cljs.core.cst$kw$error = new cljs.core.Keyword(null,"error","error",-978969032);
 cljs.core.cst$sym$keys = new cljs.core.Symbol(null,"keys","keys",-1586012071,null);
 cljs.core.cst$kw$x = new cljs.core.Keyword(null,"x","x",2099068185);
 cljs.core.cst$sym$set_BANG_ = new cljs.core.Symbol(null,"set!","set!",250714521,null);
