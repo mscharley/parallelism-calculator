@@ -48,13 +48,13 @@
 
 (defelem graph [{:keys [data axis point size]} _]
   (let [elem (div :class "graph")
-        _ (with-timeout 1000 (let [chart (.generate js/c3 (clj->js {:bindto elem
-                                                                    :data @data
-                                                                    :axis axis
-                                                                    :point point
-                                                                    :size size}))
-                                   _ (cell= (let [_ (.load chart (clj->js data))
-                                                  _ (.flush chart)]))]))]
+        _ (when-dom elem #(let [chart (.generate js/c3 (clj->js {:bindto elem
+                                                                 :data @data
+                                                                 :axis axis
+                                                                 :point point
+                                                                 :size size}))
+                                _ (cell= (let [_ (.load chart (clj->js data))
+                                               _ (.flush chart)]))]))]
     elem))
 
 (defn calc-efficiency [overhead runtime x]
