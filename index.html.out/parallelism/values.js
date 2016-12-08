@@ -221,10 +221,10 @@ parallelism.values.error = (function parallelism$values$error(value,message){
 
 return parallelism.values.__GT_Value(false,value,message);
 });
-parallelism.values.safe_value = (function parallelism$values$safe_value(value){
+parallelism.values.safe_value = (function parallelism$values$safe_value(value,default_value){
 if(cljs.core.truth_(cljs.core.cst$kw$valid.cljs$core$IFn$_invoke$arity$1(value))){
 return cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(value);
 } else {
-return "";
+return default_value;
 }
 });
