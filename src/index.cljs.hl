@@ -23,7 +23,7 @@
     (reset! input (v/value value))))
 (def param-updates (cell= (run! update-param! (map vector param-inputs params))))
 
-(def route-from-values (cell= (str "#" (v/safe-value max-threads) "/" (v/safe-value overhead) "/" (v/safe-value runtime))))
+(def route-from-values (cell= (str "#" (v/safe-value max-threads "") "/" (v/safe-value overhead "") "/" (v/safe-value runtime ""))))
 (def route-updates (cell= (set! (.-hash (.-location js/document)) route-from-values)))
 
 (defelem number-input [{:keys [to name]} children]
@@ -64,7 +64,9 @@
   ((fn [x] (+ overhead (/ runtime x)))
    (if (= x 0) 0.1 x)))
 
-(def xs (cell= (range 1 (inc (:value max-threads)))))
+(def xs (cell= (let [max (v/safe-value max-threads 1)
+                     step (/ max 50)]
+                (conj (range 1 max step) max))))
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
                                                         (conj (map (partial calc-efficiency (:value overhead) (:value runtime)) xs) "Efficiency")
                                                         (conj (map (partial calc-runtime (:value overhead) (:value runtime)) xs) "Wall clock runtime")]}))
@@ -87,5 +89,6 @@
         (p :class "description" "The maximum number of threads in your algorithm.")))
     (div :class "graph-wrapper"
       (graph :data graph-data
-             :axis {:x {:tick {:culling {:max "off"}}}
-                    :y {:min 0}}))))
+             :axis {:x {:show false}
+                    :y {:min 0}}
+             :point {:show false}))))

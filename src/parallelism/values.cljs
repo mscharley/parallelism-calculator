@@ -11,7 +11,7 @@
   "Create a new error object."
   (->Value false value message))
 
-(defn safe-value [value]
+(defn safe-value [value default-value]
   (if (:valid value)
     (:value value)
-    ""))
+    default-value))
