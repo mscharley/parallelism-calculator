@@ -18,6 +18,10 @@ dependencies:
   override:
     - boot prod
 
+test:
+  override:
+    - boot testing test-cljs
+
 deployment:
   documentation:
     branch: master
