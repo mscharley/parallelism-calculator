@@ -46,23 +46,29 @@
           :click #(this-as field (.select (js/jQuery field)))))
       children)))
 
-(defelem graph [{:keys [data axis point size]} _]
+(defelem graph [{:keys [data xgrid axis point size]} _]
   (let [elem (div :class "graph")
         _ (when-dom elem #(let [chart (.generate js/c3 (clj->js {:bindto elem
                                                                  :data @data
+                                                                 :grid {:x {:lines @xgrid}}
                                                                  :axis axis
                                                                  :point point
                                                                  :size size}))
                                 _ (cell= (let [_ (.load chart (clj->js data))
-                                               _ (.flush chart)]))]))]
+                                               _ (.flush chart)]))
+                                _ (cell= (.xgrids chart (clj->js xgrid)))]))]
     elem))
 
 (defn calc-efficiency [overhead runtime x]
-  ((fn [x] (+ (* overhead x) (/ runtime x)))
-   (if (= x 0) 0.1 x)))
+  (+ (* overhead x) (/ runtime x)))
+(defn calc-optimum-efficiency [overhead runtime]
+  (.sqrt js/Math (/ runtime overhead)))
 (defn calc-runtime [overhead runtime x]
-  ((fn [x] (+ overhead (/ runtime x)))
-   (if (= x 0) 0.1 x)))
+  (+ overhead (/ runtime x)))
+(defn calc-optimum-runtime [target runtime]
+  (.sqrt js/Math (/ runtime target)))
+(defn calc-optimum-runtime-range [runtime]
+  [(calc-optimum-runtime -2 runtime) (calc-optimum-runtime -1 runtime)])
 
 (def xs (cell= (let [max (v/safe-value max-threads 1)
                      step (/ max 50)]
@@ -70,6 +76,13 @@
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
                                                         (conj (map (partial calc-efficiency (:value overhead) (:value runtime)) xs) "Efficiency")
                                                         (conj (map (partial calc-runtime (:value overhead) (:value runtime)) xs) "Wall clock runtime")]}))
+(def graph-xgrid (cell= (let [eff (.round js/Math (calc-optimum-efficiency (:value overhead) (:value runtime)))
+                              min-runtime (.round js/Math (calc-optimum-runtime 2 (:value runtime)))
+                              max-runtime (.round js/Math (calc-optimum-runtime 1 (:value runtime)))
+                              _ (print min-runtime max-runtime)]
+                          [{:value eff :text (str "Optimal efficiency: " eff)}
+                           {:value min-runtime :text (str "Optimal runtime starting at " min-runtime)}
+                           {:value max-runtime :text (str "Optimal runtime ending at " max-runtime)}])))
 
 (html
   (head
@@ -89,6 +102,7 @@
         (p :class "description" "The maximum number of threads in your algorithm.")))
     (div :class "graph-wrapper"
       (graph :data graph-data
+             :xgrid graph-xgrid
              :axis {:x {:show false}
                     :y {:min 0}}
              :point {:show false}))))
