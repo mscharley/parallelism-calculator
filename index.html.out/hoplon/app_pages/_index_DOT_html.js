@@ -173,44 +173,50 @@ return hoplon$app_pages$_index_DOT_html$number_input;
  */
 hoplon.app_pages._index_DOT_html.graph = (function() { 
 var hoplon$app_pages$_index_DOT_html$graph__delegate = function (args__13796__auto__){
-var vec__14598 = hoplon.core.parse_args(args__13796__auto__);
-var map__14601 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14598,(0),null);
-var map__14601__$1 = ((((!((map__14601 == null)))?((((map__14601.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__14601.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__14601):map__14601);
-var data = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14601__$1,cljs.core.cst$kw$data);
-var axis = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14601__$1,cljs.core.cst$kw$axis);
-var point = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14601__$1,cljs.core.cst$kw$point);
-var size = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14601__$1,cljs.core.cst$kw$size);
-var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14598,(1),null);
-var elem = (function (){var G__14603 = cljs.core.cst$kw$class;
-var G__14604 = "graph";
-return (hoplon.core.div.cljs$core$IFn$_invoke$arity$2 ? hoplon.core.div.cljs$core$IFn$_invoke$arity$2(G__14603,G__14604) : hoplon.core.div.call(null,G__14603,G__14604));
+var vec__14601 = hoplon.core.parse_args(args__13796__auto__);
+var map__14604 = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14601,(0),null);
+var map__14604__$1 = ((((!((map__14604 == null)))?((((map__14604.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__14604.cljs$core$ISeq$)))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__14604):map__14604);
+var data = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14604__$1,cljs.core.cst$kw$data);
+var xgrid = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14604__$1,cljs.core.cst$kw$xgrid);
+var axis = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14604__$1,cljs.core.cst$kw$axis);
+var point = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14604__$1,cljs.core.cst$kw$point);
+var size = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__14604__$1,cljs.core.cst$kw$size);
+var _ = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__14601,(1),null);
+var elem = (function (){var G__14606 = cljs.core.cst$kw$class;
+var G__14607 = "graph";
+return (hoplon.core.div.cljs$core$IFn$_invoke$arity$2 ? hoplon.core.div.cljs$core$IFn$_invoke$arity$2(G__14606,G__14607) : hoplon.core.div.call(null,G__14606,G__14607));
 })();
-var ___$1 = hoplon.core.when_dom(elem,((function (elem,vec__14598,map__14601,map__14601__$1,data,axis,point,size,_){
+var ___$1 = hoplon.core.when_dom(elem,((function (elem,vec__14601,map__14604,map__14604__$1,data,xgrid,axis,point,size,_){
 return (function (){
-var chart = c3.generate(cljs.core.clj__GT_js(new cljs.core.PersistentArrayMap(null, 5, [cljs.core.cst$kw$bindto,elem,cljs.core.cst$kw$data,(cljs.core.deref.cljs$core$IFn$_invoke$arity$1 ? cljs.core.deref.cljs$core$IFn$_invoke$arity$1(data) : cljs.core.deref.call(null,data)),cljs.core.cst$kw$axis,axis,cljs.core.cst$kw$point,point,cljs.core.cst$kw$size,size], null)));
-var ___$1 = javelin.core.formula(((function (chart,elem,vec__14598,map__14601,map__14601__$1,data,axis,point,size,_){
-return (function (G__14607,G__14605,G__14606){
-var ___$1 = G__14605.load((G__14606.cljs$core$IFn$_invoke$arity$1 ? G__14606.cljs$core$IFn$_invoke$arity$1(G__14607) : G__14606.call(null,G__14607)));
-var ___$2 = G__14605.flush();
+var chart = c3.generate(cljs.core.clj__GT_js(new cljs.core.PersistentArrayMap(null, 6, [cljs.core.cst$kw$bindto,elem,cljs.core.cst$kw$data,(cljs.core.deref.cljs$core$IFn$_invoke$arity$1 ? cljs.core.deref.cljs$core$IFn$_invoke$arity$1(data) : cljs.core.deref.call(null,data)),cljs.core.cst$kw$grid,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$x,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$lines,(cljs.core.deref.cljs$core$IFn$_invoke$arity$1 ? cljs.core.deref.cljs$core$IFn$_invoke$arity$1(xgrid) : cljs.core.deref.call(null,xgrid))], null)], null),cljs.core.cst$kw$axis,axis,cljs.core.cst$kw$point,point,cljs.core.cst$kw$size,size], null)));
+var ___$1 = javelin.core.formula(((function (chart,elem,vec__14601,map__14604,map__14604__$1,data,xgrid,axis,point,size,_){
+return (function (G__14610,G__14608,G__14609){
+var ___$1 = G__14608.load((G__14609.cljs$core$IFn$_invoke$arity$1 ? G__14609.cljs$core$IFn$_invoke$arity$1(G__14610) : G__14609.call(null,G__14610)));
+var ___$2 = G__14608.flush();
 return null;
-});})(chart,elem,vec__14598,map__14601,map__14601__$1,data,axis,point,size,_))
+});})(chart,elem,vec__14601,map__14604,map__14604__$1,data,xgrid,axis,point,size,_))
 ).call(null,data,chart,cljs.core.clj__GT_js);
+var ___$2 = javelin.core.formula(((function (chart,___$1,elem,vec__14601,map__14604,map__14604__$1,data,xgrid,axis,point,size,_){
+return (function (G__14613,G__14611,G__14612){
+return G__14611.xgrids((G__14612.cljs$core$IFn$_invoke$arity$1 ? G__14612.cljs$core$IFn$_invoke$arity$1(G__14613) : G__14612.call(null,G__14613)));
+});})(chart,___$1,elem,vec__14601,map__14604,map__14604__$1,data,xgrid,axis,point,size,_))
+).call(null,xgrid,chart,cljs.core.clj__GT_js);
 return null;
-});})(elem,vec__14598,map__14601,map__14601__$1,data,axis,point,size,_))
+});})(elem,vec__14601,map__14604,map__14604__$1,data,xgrid,axis,point,size,_))
 );
 return elem;
 };
 var hoplon$app_pages$_index_DOT_html$graph = function (var_args){
 var args__13796__auto__ = null;
 if (arguments.length > 0) {
-var G__14608__i = 0, G__14608__a = new Array(arguments.length -  0);
-while (G__14608__i < G__14608__a.length) {G__14608__a[G__14608__i] = arguments[G__14608__i + 0]; ++G__14608__i;}
-  args__13796__auto__ = new cljs.core.IndexedSeq(G__14608__a,0);
+var G__14614__i = 0, G__14614__a = new Array(arguments.length -  0);
+while (G__14614__i < G__14614__a.length) {G__14614__a[G__14614__i] = arguments[G__14614__i + 0]; ++G__14614__i;}
+  args__13796__auto__ = new cljs.core.IndexedSeq(G__14614__a,0);
 } 
 return hoplon$app_pages$_index_DOT_html$graph__delegate.call(this,args__13796__auto__);};
 hoplon$app_pages$_index_DOT_html$graph.cljs$lang$maxFixedArity = 0;
-hoplon$app_pages$_index_DOT_html$graph.cljs$lang$applyTo = (function (arglist__14609){
-var args__13796__auto__ = cljs.core.seq(arglist__14609);
+hoplon$app_pages$_index_DOT_html$graph.cljs$lang$applyTo = (function (arglist__14615){
+var args__13796__auto__ = cljs.core.seq(arglist__14615);
 return hoplon$app_pages$_index_DOT_html$graph__delegate(args__13796__auto__);
 });
 hoplon$app_pages$_index_DOT_html$graph.cljs$core$IFn$_invoke$arity$variadic = hoplon$app_pages$_index_DOT_html$graph__delegate;
@@ -218,98 +224,119 @@ return hoplon$app_pages$_index_DOT_html$graph;
 })()
 ;
 hoplon.app_pages._index_DOT_html.calc_efficiency = (function hoplon$app_pages$_index_DOT_html$calc_efficiency(overhead,runtime,x){
-return (function (x__$1){
-return ((overhead * x__$1) + (runtime / x__$1));
-}).call(null,((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(x,(0)))?0.1:x));
+return ((overhead * x) + (runtime / x));
+});
+hoplon.app_pages._index_DOT_html.calc_optimum_efficiency = (function hoplon$app_pages$_index_DOT_html$calc_optimum_efficiency(overhead,runtime){
+return Math.sqrt((runtime / overhead));
 });
 hoplon.app_pages._index_DOT_html.calc_runtime = (function hoplon$app_pages$_index_DOT_html$calc_runtime(overhead,runtime,x){
-return (function (x__$1){
-return (overhead + (runtime / x__$1));
-}).call(null,((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(x,(0)))?0.1:x));
+return (overhead + (runtime / x));
 });
-hoplon.app_pages._index_DOT_html.xs = javelin.core.formula((function (G__14611,G__14613,G__14612,G__14610){
-var max = (G__14610.cljs$core$IFn$_invoke$arity$2 ? G__14610.cljs$core$IFn$_invoke$arity$2(G__14611,(1)) : G__14610.call(null,G__14611,(1)));
+hoplon.app_pages._index_DOT_html.calc_optimum_runtime = (function hoplon$app_pages$_index_DOT_html$calc_optimum_runtime(target,runtime){
+return Math.sqrt((runtime / target));
+});
+hoplon.app_pages._index_DOT_html.calc_optimum_runtime_range = (function hoplon$app_pages$_index_DOT_html$calc_optimum_runtime_range(runtime){
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [hoplon.app_pages._index_DOT_html.calc_optimum_runtime((-2),runtime),hoplon.app_pages._index_DOT_html.calc_optimum_runtime((-1),runtime)], null);
+});
+hoplon.app_pages._index_DOT_html.xs = javelin.core.formula((function (G__14617,G__14619,G__14618,G__14616){
+var max = (G__14616.cljs$core$IFn$_invoke$arity$2 ? G__14616.cljs$core$IFn$_invoke$arity$2(G__14617,(1)) : G__14616.call(null,G__14617,(1)));
 var step = (max / (50));
-var G__14614 = (G__14613.cljs$core$IFn$_invoke$arity$3 ? G__14613.cljs$core$IFn$_invoke$arity$3((1),max,step) : G__14613.call(null,(1),max,step));
-var G__14615 = max;
-return (G__14612.cljs$core$IFn$_invoke$arity$2 ? G__14612.cljs$core$IFn$_invoke$arity$2(G__14614,G__14615) : G__14612.call(null,G__14614,G__14615));
+var G__14620 = (G__14619.cljs$core$IFn$_invoke$arity$3 ? G__14619.cljs$core$IFn$_invoke$arity$3((1),max,step) : G__14619.call(null,(1),max,step));
+var G__14621 = max;
+return (G__14618.cljs$core$IFn$_invoke$arity$2 ? G__14618.cljs$core$IFn$_invoke$arity$2(G__14620,G__14621) : G__14618.call(null,G__14620,G__14621));
 })).call(null,hoplon.app_pages._index_DOT_html.max_threads,cljs.core.range,cljs.core.conj,parallelism.values.safe_value);
-hoplon.app_pages._index_DOT_html.graph_data = javelin.core.formula((function (G__14618,G__14621,G__14616,G__14620,G__14623,G__14617,G__14619,G__14622){
-return new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$type,"spline",cljs.core.cst$kw$x,"x",cljs.core.cst$kw$columns,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(G__14616.cljs$core$IFn$_invoke$arity$2 ? G__14616.cljs$core$IFn$_invoke$arity$2(G__14617,"x") : G__14616.call(null,G__14617,"x")),(function (){var G__14624 = (function (){var G__14626 = (function (){var G__14628 = G__14620;
-var G__14629 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14621);
-var G__14630 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14622);
-return (G__14619.cljs$core$IFn$_invoke$arity$3 ? G__14619.cljs$core$IFn$_invoke$arity$3(G__14628,G__14629,G__14630) : G__14619.call(null,G__14628,G__14629,G__14630));
+hoplon.app_pages._index_DOT_html.graph_data = javelin.core.formula((function (G__14624,G__14627,G__14622,G__14626,G__14629,G__14623,G__14625,G__14628){
+return new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$type,"spline",cljs.core.cst$kw$x,"x",cljs.core.cst$kw$columns,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [(G__14622.cljs$core$IFn$_invoke$arity$2 ? G__14622.cljs$core$IFn$_invoke$arity$2(G__14623,"x") : G__14622.call(null,G__14623,"x")),(function (){var G__14630 = (function (){var G__14632 = (function (){var G__14634 = G__14626;
+var G__14635 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14627);
+var G__14636 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14628);
+return (G__14625.cljs$core$IFn$_invoke$arity$3 ? G__14625.cljs$core$IFn$_invoke$arity$3(G__14634,G__14635,G__14636) : G__14625.call(null,G__14634,G__14635,G__14636));
 })();
-var G__14627 = G__14617;
-return (G__14618.cljs$core$IFn$_invoke$arity$2 ? G__14618.cljs$core$IFn$_invoke$arity$2(G__14626,G__14627) : G__14618.call(null,G__14626,G__14627));
+var G__14633 = G__14623;
+return (G__14624.cljs$core$IFn$_invoke$arity$2 ? G__14624.cljs$core$IFn$_invoke$arity$2(G__14632,G__14633) : G__14624.call(null,G__14632,G__14633));
 })();
-var G__14625 = "Efficiency";
-return (G__14616.cljs$core$IFn$_invoke$arity$2 ? G__14616.cljs$core$IFn$_invoke$arity$2(G__14624,G__14625) : G__14616.call(null,G__14624,G__14625));
-})(),(function (){var G__14631 = (function (){var G__14633 = (function (){var G__14635 = G__14623;
-var G__14636 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14621);
-var G__14637 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14622);
-return (G__14619.cljs$core$IFn$_invoke$arity$3 ? G__14619.cljs$core$IFn$_invoke$arity$3(G__14635,G__14636,G__14637) : G__14619.call(null,G__14635,G__14636,G__14637));
+var G__14631 = "Efficiency";
+return (G__14622.cljs$core$IFn$_invoke$arity$2 ? G__14622.cljs$core$IFn$_invoke$arity$2(G__14630,G__14631) : G__14622.call(null,G__14630,G__14631));
+})(),(function (){var G__14637 = (function (){var G__14639 = (function (){var G__14641 = G__14629;
+var G__14642 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14627);
+var G__14643 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14628);
+return (G__14625.cljs$core$IFn$_invoke$arity$3 ? G__14625.cljs$core$IFn$_invoke$arity$3(G__14641,G__14642,G__14643) : G__14625.call(null,G__14641,G__14642,G__14643));
 })();
-var G__14634 = G__14617;
-return (G__14618.cljs$core$IFn$_invoke$arity$2 ? G__14618.cljs$core$IFn$_invoke$arity$2(G__14633,G__14634) : G__14618.call(null,G__14633,G__14634));
+var G__14640 = G__14623;
+return (G__14624.cljs$core$IFn$_invoke$arity$2 ? G__14624.cljs$core$IFn$_invoke$arity$2(G__14639,G__14640) : G__14624.call(null,G__14639,G__14640));
 })();
-var G__14632 = "Wall clock runtime";
-return (G__14616.cljs$core$IFn$_invoke$arity$2 ? G__14616.cljs$core$IFn$_invoke$arity$2(G__14631,G__14632) : G__14616.call(null,G__14631,G__14632));
+var G__14638 = "Wall clock runtime";
+return (G__14622.cljs$core$IFn$_invoke$arity$2 ? G__14622.cljs$core$IFn$_invoke$arity$2(G__14637,G__14638) : G__14622.call(null,G__14637,G__14638));
 })()], null)], null);
 })).call(null,cljs.core.map,hoplon.app_pages._index_DOT_html.overhead,cljs.core.conj,hoplon.app_pages._index_DOT_html.calc_efficiency,hoplon.app_pages._index_DOT_html.calc_runtime,hoplon.app_pages._index_DOT_html.xs,cljs.core.partial,hoplon.app_pages._index_DOT_html.runtime);
-hoplon.core.html.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([(function (){var G__14638 = (hoplon.core.title.cljs$core$IFn$_invoke$arity$1 ? hoplon.core.title.cljs$core$IFn$_invoke$arity$1("Parallelism calculator") : hoplon.core.title.call(null,"Parallelism calculator"));
-var G__14639 = (function (){var G__14644 = cljs.core.cst$kw$charset;
-var G__14645 = "utf-8";
-return (hoplon.core.html_meta.cljs$core$IFn$_invoke$arity$2 ? hoplon.core.html_meta.cljs$core$IFn$_invoke$arity$2(G__14644,G__14645) : hoplon.core.html_meta.call(null,G__14644,G__14645));
+hoplon.app_pages._index_DOT_html.graph_xgrid = javelin.core.formula((function (G__14645,G__14647,G__14644,G__14648,G__14646){
+var eff = Math.round((function (){var G__14649 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14645);
+var G__14650 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14646);
+return (G__14644.cljs$core$IFn$_invoke$arity$2 ? G__14644.cljs$core$IFn$_invoke$arity$2(G__14649,G__14650) : G__14644.call(null,G__14649,G__14650));
+})());
+var min_runtime = Math.round((function (){var G__14651 = (2);
+var G__14652 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14646);
+return (G__14647.cljs$core$IFn$_invoke$arity$2 ? G__14647.cljs$core$IFn$_invoke$arity$2(G__14651,G__14652) : G__14647.call(null,G__14651,G__14652));
+})());
+var max_runtime = Math.round((function (){var G__14653 = (1);
+var G__14654 = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(G__14646);
+return (G__14647.cljs$core$IFn$_invoke$arity$2 ? G__14647.cljs$core$IFn$_invoke$arity$2(G__14653,G__14654) : G__14647.call(null,G__14653,G__14654));
+})());
+var _ = (G__14648.cljs$core$IFn$_invoke$arity$2 ? G__14648.cljs$core$IFn$_invoke$arity$2(min_runtime,max_runtime) : G__14648.call(null,min_runtime,max_runtime));
+return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$value,eff,cljs.core.cst$kw$text,[cljs.core.str("Optimal efficiency: "),cljs.core.str(eff)].join('')], null),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$value,min_runtime,cljs.core.cst$kw$text,[cljs.core.str("Optimal runtime starting at "),cljs.core.str(min_runtime)].join('')], null),new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$value,max_runtime,cljs.core.cst$kw$text,[cljs.core.str("Optimal runtime ending at "),cljs.core.str(max_runtime)].join('')], null)], null);
+})).call(null,hoplon.app_pages._index_DOT_html.overhead,hoplon.app_pages._index_DOT_html.calc_optimum_runtime,hoplon.app_pages._index_DOT_html.calc_optimum_efficiency,cljs.core.print,hoplon.app_pages._index_DOT_html.runtime);
+hoplon.core.html.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([(function (){var G__14655 = (hoplon.core.title.cljs$core$IFn$_invoke$arity$1 ? hoplon.core.title.cljs$core$IFn$_invoke$arity$1("Parallelism calculator") : hoplon.core.title.call(null,"Parallelism calculator"));
+var G__14656 = (function (){var G__14661 = cljs.core.cst$kw$charset;
+var G__14662 = "utf-8";
+return (hoplon.core.html_meta.cljs$core$IFn$_invoke$arity$2 ? hoplon.core.html_meta.cljs$core$IFn$_invoke$arity$2(G__14661,G__14662) : hoplon.core.html_meta.call(null,G__14661,G__14662));
 })();
-var G__14640 = (function (){var G__14646 = cljs.core.cst$kw$href;
-var G__14647 = "normalize.css";
-var G__14648 = cljs.core.cst$kw$rel;
-var G__14649 = "stylesheet";
-return (hoplon.core.link.cljs$core$IFn$_invoke$arity$4 ? hoplon.core.link.cljs$core$IFn$_invoke$arity$4(G__14646,G__14647,G__14648,G__14649) : hoplon.core.link.call(null,G__14646,G__14647,G__14648,G__14649));
+var G__14657 = (function (){var G__14663 = cljs.core.cst$kw$href;
+var G__14664 = "normalize.css";
+var G__14665 = cljs.core.cst$kw$rel;
+var G__14666 = "stylesheet";
+return (hoplon.core.link.cljs$core$IFn$_invoke$arity$4 ? hoplon.core.link.cljs$core$IFn$_invoke$arity$4(G__14663,G__14664,G__14665,G__14666) : hoplon.core.link.call(null,G__14663,G__14664,G__14665,G__14666));
 })();
-var G__14641 = (function (){var G__14650 = cljs.core.cst$kw$href;
-var G__14651 = "c3.css";
-var G__14652 = cljs.core.cst$kw$rel;
-var G__14653 = "stylesheet";
-return (hoplon.core.link.cljs$core$IFn$_invoke$arity$4 ? hoplon.core.link.cljs$core$IFn$_invoke$arity$4(G__14650,G__14651,G__14652,G__14653) : hoplon.core.link.call(null,G__14650,G__14651,G__14652,G__14653));
+var G__14658 = (function (){var G__14667 = cljs.core.cst$kw$href;
+var G__14668 = "c3.css";
+var G__14669 = cljs.core.cst$kw$rel;
+var G__14670 = "stylesheet";
+return (hoplon.core.link.cljs$core$IFn$_invoke$arity$4 ? hoplon.core.link.cljs$core$IFn$_invoke$arity$4(G__14667,G__14668,G__14669,G__14670) : hoplon.core.link.call(null,G__14667,G__14668,G__14669,G__14670));
 })();
-var G__14642 = (function (){var G__14654 = cljs.core.cst$kw$href;
-var G__14655 = "app.css";
-var G__14656 = cljs.core.cst$kw$rel;
-var G__14657 = "stylesheet";
-return (hoplon.core.link.cljs$core$IFn$_invoke$arity$4 ? hoplon.core.link.cljs$core$IFn$_invoke$arity$4(G__14654,G__14655,G__14656,G__14657) : hoplon.core.link.call(null,G__14654,G__14655,G__14656,G__14657));
+var G__14659 = (function (){var G__14671 = cljs.core.cst$kw$href;
+var G__14672 = "app.css";
+var G__14673 = cljs.core.cst$kw$rel;
+var G__14674 = "stylesheet";
+return (hoplon.core.link.cljs$core$IFn$_invoke$arity$4 ? hoplon.core.link.cljs$core$IFn$_invoke$arity$4(G__14671,G__14672,G__14673,G__14674) : hoplon.core.link.call(null,G__14671,G__14672,G__14673,G__14674));
 })();
-var G__14643 = (function (){var G__14658 = cljs.core.cst$kw$name;
-var G__14659 = "viewport";
-var G__14660 = cljs.core.cst$kw$content;
-var G__14661 = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0";
-return (hoplon.core.html_meta.cljs$core$IFn$_invoke$arity$4 ? hoplon.core.html_meta.cljs$core$IFn$_invoke$arity$4(G__14658,G__14659,G__14660,G__14661) : hoplon.core.html_meta.call(null,G__14658,G__14659,G__14660,G__14661));
+var G__14660 = (function (){var G__14675 = cljs.core.cst$kw$name;
+var G__14676 = "viewport";
+var G__14677 = cljs.core.cst$kw$content;
+var G__14678 = "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0";
+return (hoplon.core.html_meta.cljs$core$IFn$_invoke$arity$4 ? hoplon.core.html_meta.cljs$core$IFn$_invoke$arity$4(G__14675,G__14676,G__14677,G__14678) : hoplon.core.html_meta.call(null,G__14675,G__14676,G__14677,G__14678));
 })();
-return (hoplon.core.head.cljs$core$IFn$_invoke$arity$6 ? hoplon.core.head.cljs$core$IFn$_invoke$arity$6(G__14638,G__14639,G__14640,G__14641,G__14642,G__14643) : hoplon.core.head.call(null,G__14638,G__14639,G__14640,G__14641,G__14642,G__14643));
-})(),(function (){var G__14662 = (function (){var G__14664 = cljs.core.cst$kw$class;
-var G__14665 = "sidebar";
-var G__14666 = hoplon.app_pages._index_DOT_html.number_input.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.cst$kw$to,hoplon.app_pages._index_DOT_html.overhead,cljs.core.cst$kw$name,"Overhead:",(function (){var G__14669 = cljs.core.cst$kw$class;
-var G__14670 = "description";
-var G__14671 = "This is the overhead for starting a single parallel thread.";
-return (hoplon.core.p.cljs$core$IFn$_invoke$arity$3 ? hoplon.core.p.cljs$core$IFn$_invoke$arity$3(G__14669,G__14670,G__14671) : hoplon.core.p.call(null,G__14669,G__14670,G__14671));
+return (hoplon.core.head.cljs$core$IFn$_invoke$arity$6 ? hoplon.core.head.cljs$core$IFn$_invoke$arity$6(G__14655,G__14656,G__14657,G__14658,G__14659,G__14660) : hoplon.core.head.call(null,G__14655,G__14656,G__14657,G__14658,G__14659,G__14660));
+})(),(function (){var G__14679 = (function (){var G__14681 = cljs.core.cst$kw$class;
+var G__14682 = "sidebar";
+var G__14683 = hoplon.app_pages._index_DOT_html.number_input.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.cst$kw$to,hoplon.app_pages._index_DOT_html.overhead,cljs.core.cst$kw$name,"Overhead:",(function (){var G__14686 = cljs.core.cst$kw$class;
+var G__14687 = "description";
+var G__14688 = "This is the overhead for starting a single parallel thread.";
+return (hoplon.core.p.cljs$core$IFn$_invoke$arity$3 ? hoplon.core.p.cljs$core$IFn$_invoke$arity$3(G__14686,G__14687,G__14688) : hoplon.core.p.call(null,G__14686,G__14687,G__14688));
 })()], 0));
-var G__14667 = hoplon.app_pages._index_DOT_html.number_input.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.cst$kw$to,hoplon.app_pages._index_DOT_html.runtime,cljs.core.cst$kw$name,"Runtime:",(function (){var G__14672 = cljs.core.cst$kw$class;
-var G__14673 = "description";
-var G__14674 = "This is the total runtime for the work you have to do.";
-return (hoplon.core.p.cljs$core$IFn$_invoke$arity$3 ? hoplon.core.p.cljs$core$IFn$_invoke$arity$3(G__14672,G__14673,G__14674) : hoplon.core.p.call(null,G__14672,G__14673,G__14674));
+var G__14684 = hoplon.app_pages._index_DOT_html.number_input.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.cst$kw$to,hoplon.app_pages._index_DOT_html.runtime,cljs.core.cst$kw$name,"Runtime:",(function (){var G__14689 = cljs.core.cst$kw$class;
+var G__14690 = "description";
+var G__14691 = "This is the total runtime for the work you have to do.";
+return (hoplon.core.p.cljs$core$IFn$_invoke$arity$3 ? hoplon.core.p.cljs$core$IFn$_invoke$arity$3(G__14689,G__14690,G__14691) : hoplon.core.p.call(null,G__14689,G__14690,G__14691));
 })()], 0));
-var G__14668 = hoplon.app_pages._index_DOT_html.number_input.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.cst$kw$to,hoplon.app_pages._index_DOT_html.max_threads,cljs.core.cst$kw$name,"Max Threads:",(function (){var G__14675 = cljs.core.cst$kw$class;
-var G__14676 = "description";
-var G__14677 = "The maximum number of threads in your algorithm.";
-return (hoplon.core.p.cljs$core$IFn$_invoke$arity$3 ? hoplon.core.p.cljs$core$IFn$_invoke$arity$3(G__14675,G__14676,G__14677) : hoplon.core.p.call(null,G__14675,G__14676,G__14677));
+var G__14685 = hoplon.app_pages._index_DOT_html.number_input.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.cst$kw$to,hoplon.app_pages._index_DOT_html.max_threads,cljs.core.cst$kw$name,"Max Threads:",(function (){var G__14692 = cljs.core.cst$kw$class;
+var G__14693 = "description";
+var G__14694 = "The maximum number of threads in your algorithm.";
+return (hoplon.core.p.cljs$core$IFn$_invoke$arity$3 ? hoplon.core.p.cljs$core$IFn$_invoke$arity$3(G__14692,G__14693,G__14694) : hoplon.core.p.call(null,G__14692,G__14693,G__14694));
 })()], 0));
-return (hoplon.core.div.cljs$core$IFn$_invoke$arity$5 ? hoplon.core.div.cljs$core$IFn$_invoke$arity$5(G__14664,G__14665,G__14666,G__14667,G__14668) : hoplon.core.div.call(null,G__14664,G__14665,G__14666,G__14667,G__14668));
+return (hoplon.core.div.cljs$core$IFn$_invoke$arity$5 ? hoplon.core.div.cljs$core$IFn$_invoke$arity$5(G__14681,G__14682,G__14683,G__14684,G__14685) : hoplon.core.div.call(null,G__14681,G__14682,G__14683,G__14684,G__14685));
 })();
-var G__14663 = (function (){var G__14678 = cljs.core.cst$kw$class;
-var G__14679 = "graph-wrapper";
-var G__14680 = hoplon.app_pages._index_DOT_html.graph.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.cst$kw$data,hoplon.app_pages._index_DOT_html.graph_data,cljs.core.cst$kw$axis,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$x,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$show,false], null),cljs.core.cst$kw$y,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$min,(0)], null)], null),cljs.core.cst$kw$point,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$show,false], null)], 0));
-return (hoplon.core.div.cljs$core$IFn$_invoke$arity$3 ? hoplon.core.div.cljs$core$IFn$_invoke$arity$3(G__14678,G__14679,G__14680) : hoplon.core.div.call(null,G__14678,G__14679,G__14680));
+var G__14680 = (function (){var G__14695 = cljs.core.cst$kw$class;
+var G__14696 = "graph-wrapper";
+var G__14697 = hoplon.app_pages._index_DOT_html.graph.cljs$core$IFn$_invoke$arity$variadic(cljs.core.array_seq([cljs.core.cst$kw$data,hoplon.app_pages._index_DOT_html.graph_data,cljs.core.cst$kw$xgrid,hoplon.app_pages._index_DOT_html.graph_xgrid,cljs.core.cst$kw$axis,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$x,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$show,false], null),cljs.core.cst$kw$y,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$min,(0)], null)], null),cljs.core.cst$kw$point,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$show,false], null)], 0));
+return (hoplon.core.div.cljs$core$IFn$_invoke$arity$3 ? hoplon.core.div.cljs$core$IFn$_invoke$arity$3(G__14695,G__14696,G__14697) : hoplon.core.div.call(null,G__14695,G__14696,G__14697));
 })();
-return (hoplon.core.body.cljs$core$IFn$_invoke$arity$2 ? hoplon.core.body.cljs$core$IFn$_invoke$arity$2(G__14662,G__14663) : hoplon.core.body.call(null,G__14662,G__14663));
+return (hoplon.core.body.cljs$core$IFn$_invoke$arity$2 ? hoplon.core.body.cljs$core$IFn$_invoke$arity$2(G__14679,G__14680) : hoplon.core.body.call(null,G__14679,G__14680));
 })()], 0));
