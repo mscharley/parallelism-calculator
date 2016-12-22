@@ -26,7 +26,7 @@
 (def route-from-values (cell= (str "#" (v/safe-value max-threads "") "/" (v/safe-value overhead "") "/" (v/safe-value runtime ""))))
 (def route-updates (cell= (set! (.-hash (.-location js/document)) route-from-values)))
 
-(defelem number-input [{:keys [to name]} children]
+(defelem number-input [{:keys [to name min]} children]
   (defn from-string [value] (js/parseFloat value))
   (defn validity [value] (not (js/isNaN (from-string value))))
   (defn update-to! [value] (reset! to value))
@@ -34,6 +34,8 @@
         update-to! (partial reset! to)
         update-val! (partial reset! val)
         valid (cell= (validity val))
+        correct? (fn [v min] (and (not (empty? v))
+                                  (>= (from-string v) min)))
         _ (cell= (update-val! (:value to)))
         _ (cell= (update-to! (if valid (v/value (from-string val))
                                        (v/error val "Value is invalid"))))]
@@ -41,8 +43,10 @@
       (div :class (cell= {:input true :invalid (not valid)})
         (label name)
         (input
+          :type "number"
+          :min min
           :value val
-          :input #(reset! val @%)
+          :keyup #(when (correct? @% min) (reset! val @%))
           :click #(this-as field (.select (js/jQuery field)))))
       children)))
 
@@ -94,11 +98,11 @@
     (html-meta :name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"))
   (body
     (div :class "sidebar"
-      (number-input :to overhead    :name "Overhead:"
+      (number-input :to overhead    :name "Overhead:" :min 1
         (p :class "description" "This is the overhead for starting a single parallel thread."))
-      (number-input :to runtime     :name "Runtime:"
+      (number-input :to runtime     :name "Runtime:" :min 1
         (p :class "description" "This is the total runtime for the work you have to do."))
-      (number-input :to max-threads :name "Max Threads:"
+      (number-input :to max-threads :name "Max Threads:" :min 1
         (p :class "description" "The maximum number of threads in your algorithm.")))
     (div :class "graph-wrapper"
       (graph :data graph-data
