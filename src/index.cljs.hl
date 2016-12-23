@@ -9,9 +9,6 @@
 (def runtime (cell (v/value default-runtime)))
 (def default-max-threads 16)
 (def max-threads (cell (v/value default-max-threads)))
-(let [_ (cell= (print "overhead:" overhead))
-      _ (cell= (print "runtime:" runtime))
-      _ (cell= (print "max-threads:" max-threads))])
 
 (def route (route-cell))
 (def route-with-defaults (cell= (if (= nil route) (str "#" default-max-threads "/" default-overhead "/" default-runtime) route)))
@@ -23,30 +20,35 @@
     (reset! input (v/value value))))
 (def param-updates (cell= (run! update-param! (map vector param-inputs params))))
 
-(def route-from-values (cell= (str "#" (v/safe-value max-threads "") "/" (v/safe-value overhead "") "/" (v/safe-value runtime ""))))
-(def route-updates (cell= (set! (.-hash (.-location js/document)) route-from-values)))
+(def route-from-values (cell= (for [max-threads (v/safe-value max-threads)
+                                    overhead (v/safe-value overhead)
+                                    runtime (v/safe-value runtime)]
+                                (str "#" max-threads "/" overhead "/" runtime))))
+(def route-updates (cell= (if (not (empty? route-from-values))
+                            (-> js/document
+                              (.-location)
+                              (.-hash)
+                              (set! (first route-from-values))))))
 
 (defelem number-input [{:keys [to name min]} children]
   (defn from-string [value] (js/parseFloat value))
-  (defn validity [value] (not (js/isNaN (from-string value))))
+  (defn check-validity [value] (not (js/isNaN (from-string value))))
   (defn update-to! [value] (reset! to value))
   (let [val (cell (:value @to))
         update-to! (partial reset! to)
         update-val! (partial reset! val)
-        valid (cell= (validity val))
-        correct? (fn [v min] (and (not (empty? v))
-                                  (>= (from-string v) min)))
+        valid? (cell= (check-validity val))
         _ (cell= (update-val! (:value to)))
-        _ (cell= (update-to! (if valid (v/value (from-string val))
-                                       (v/error val "Value is invalid"))))]
+        _ (cell= (update-to! (if valid? (v/value (from-string val))
+                                        (v/error val "Value is invalid"))))]
     (div :class "field"
-      (div :class (cell= {:input true :invalid (not valid)})
+      (div :class (cell= {:input true :invalid (not valid?)})
         (label name)
         (input
           :type "number"
           :min min
           :value val
-          :keyup #(when (correct? @% min) (reset! val @%))
+          :input #(reset! val @%)
           :click #(this-as field (.select (js/jQuery field)))))
       children)))
 
@@ -98,9 +100,9 @@
     (html-meta :name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"))
   (body
     (div :class "sidebar"
-      (number-input :to overhead    :name "Overhead:" :min 1
+      (number-input :to overhead    :name "Overhead:"    :min 1
         (p :class "description" "This is the overhead for starting a single parallel thread."))
-      (number-input :to runtime     :name "Runtime:" :min 1
+      (number-input :to runtime     :name "Runtime:"     :min 1
         (p :class "description" "This is the total runtime for the work you have to do."))
       (number-input :to max-threads :name "Max Threads:" :min 1
         (p :class "description" "The maximum number of threads in your algorithm.")))
