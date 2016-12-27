@@ -5,12 +5,10 @@
             [parallelism.params :as p]
             [parallelism.calc :as calc]))
 
-(def max-threads (p/param 16))
-(def overhead (p/param 5))
-(def runtime (p/param 60))
+(def max-threads (p/param 16 js/parseFloat))
+(def overhead (p/param 5 js/parseFloat))
+(def runtime (p/param 60 js/parseFloat))
 (def route (p/route max-threads overhead runtime))
-
-(def nr (cell= (print route)))
 
 ; (def route-from-values (cell= (for [max-threads (v/safe-value max-threads)
 ;                                     overhead (v/safe-value overhead)
@@ -78,16 +76,13 @@
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
                                                         (conj xs-efficiency "Efficiency")
                                                         (conj xs-runtime "Wall clock runtime")]}))
-(def graph-data-print (cell= (.log js/console (clj->js graph-data))))
 
 (def graph-xgrid (cell= (let [eff (.round js/Math (calc/optimum-efficiency (:value overhead) (:value runtime)))
                               min-runtime (.round js/Math (calc/optimum-runtime 2 (:value runtime)))
-                              max-runtime (.round js/Math (calc/optimum-runtime 1 (:value runtime)))
-                              _ (print eff min-runtime max-runtime)]
+                              max-runtime (.round js/Math (calc/optimum-runtime 1 (:value runtime)))]
                           [{:value eff         :text (str "Optimal efficiency at " eff)}
                            {:value min-runtime :text (str "Optimal runtime starting at " min-runtime)}
                            {:value max-runtime :text (str "Optimal runtime ending at " max-runtime)}])))
-(def graph-xgrid-print (cell= (.log js/console (clj->js graph-xgrid))))
 
 (html
   (head
