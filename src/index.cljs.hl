@@ -48,6 +48,7 @@
         (label name)
         (input
           :type "number"
+          :step "any"
           :min min
           :value val
           :input #(update-val! @%)
