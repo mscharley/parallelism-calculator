@@ -70,24 +70,24 @@
     elem))
 
 (def xs (cell= (let [max (-> max-threads
-                             (p/cell-for)
-                             (deref)
                              (v/with-default 1))
                      step (/ max 50)]
                  (conj (range 1 max step) max))))
-(def xs-efficiency (cell= (map (partial calc/efficiency (:value (p/cell-for overhead)) (:value (p/cell-for runtime))) xs)))
-(def xs-runtime (cell= (map (partial calc/runtime (:value (p/cell-for overhead)) (:value (p/cell-for runtime))) xs)))
+(def xs-efficiency (cell= (map (partial calc/efficiency (:value overhead) (:value runtime)) xs)))
+(def xs-runtime (cell= (map (partial calc/runtime (:value overhead) (:value runtime)) xs)))
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
                                                         (conj xs-efficiency "Efficiency")
                                                         (conj xs-runtime "Wall clock runtime")]}))
+(def graph-data-print (cell= (.log js/console (clj->js graph-data))))
 
-(def graph-xgrid (cell= (let [eff (.round js/Math (calc/optimum-efficiency (:value (p/cell-for overhead)) (:value (p/cell-for runtime))))
-                              min-runtime (.round js/Math (calc/optimum-runtime 2 (:value (p/cell-for runtime))))
-                              max-runtime (.round js/Math (calc/optimum-runtime 1 (:value (p/cell-for runtime))))
-                              _ (print min-runtime max-runtime)]
+(def graph-xgrid (cell= (let [eff (.round js/Math (calc/optimum-efficiency (:value overhead) (:value runtime)))
+                              min-runtime (.round js/Math (calc/optimum-runtime 2 (:value runtime)))
+                              max-runtime (.round js/Math (calc/optimum-runtime 1 (:value runtime)))
+                              _ (print eff min-runtime max-runtime)]
                           [{:value eff         :text (str "Optimal efficiency at " eff)}
                            {:value min-runtime :text (str "Optimal runtime starting at " min-runtime)}
                            {:value max-runtime :text (str "Optimal runtime ending at " max-runtime)}])))
+(def graph-xgrid-print (cell= (.log js/console (clj->js graph-xgrid))))
 
 (html
   (head
@@ -99,11 +99,11 @@
     (html-meta :name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"))
   (body
     (div :class "sidebar"
-      (number-input :to (p/cell-for overhead)    :name "Overhead:"    :min 1
+      (number-input :to overhead    :name "Overhead:"    :min 1
         (p :class "description" "This is the overhead for starting a single parallel thread."))
-      (number-input :to (p/cell-for runtime)     :name "Runtime:"     :min 1
+      (number-input :to runtime     :name "Runtime:"     :min 1
         (p :class "description" "This is the total runtime for the work you have to do."))
-      (number-input :to (p/cell-for max-threads) :name "Max Threads:" :min 1
+      (number-input :to max-threads :name "Max Threads:" :min 1
         (p :class "description" "The maximum number of threads in your algorithm.")))
     (div :class "graph-wrapper"
       (graph :data graph-data
