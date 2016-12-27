@@ -16,3 +16,9 @@
   (list (:value v)))
 (defmethod safe-value false [v]
   ())
+
+(defn with-default [v d]
+  (-> v
+      (safe-value)
+      (conj d)
+      (last)))
