@@ -24,13 +24,10 @@
   [params]
   `(j/dosync
     ~@(map (fn [[sym props]] `(def ~sym (param ~@props))) (partition 2 params))
-    (let [params# (vector ~@(->> params (partition 2) (first)))
+    (let [params# (vector ~@(->> params (partition 2) (map first)))
           r# (h/route-cell (str "#" (str/join (map #(:value (deref %1)) (quote params#)) "/")))
-          ~(gensym) (print r#)
           values# (j/cell= (-> r# (str/replace-first #"^#" "") (str/split #"/")))
-          ~(gensym) (print values#)
           param-values# (j/cell= (map vector params# values#))
-          ~(gensym) (print param-values#)
           param-updates# (j/cell= (j/dosync
                                    (doall (for [[cell# value#] param-values#]
                                             (reset! cell# value#)))))]
