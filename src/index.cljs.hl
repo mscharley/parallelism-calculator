@@ -3,37 +3,18 @@
             [clojure.string :as str]
             [parallelism.values :as v]
             [parallelism.params :as p]
-            [parallelism.calc :as calc]))
+            [parallelism.calc :as calc])
+  (:require-macros [parallelism.params :refer [param route]]))
 
-(def max-threads (p/param 16 js/parseFloat))
-(def overhead (p/param 5 js/parseFloat))
-(def runtime (p/param 60 js/parseFloat))
-(def route (p/route max-threads overhead runtime))
-
-; (def route-from-values (cell= (for [max-threads (v/safe-value max-threads)
-;                                     overhead (v/safe-value overhead)
-;                                     runtime (v/safe-value runtime)]
-;                                 (str "#" max-threads "/" overhead "/" runtime))))
-; (def route- ith-defaults (cell=
-;                           (if (= nil route) (str "#" (:initial max-threads) "/" (:initial overhead) "/" (:initial runtime)) route)
-;                           (fn [v] (-> js/document
-;                                    (.-location)
-;                                    (.-hash)
-;                                    (set! (first v))))))
-; (def update route! (partial reset! route-with-defaults))
-;
-; (def params (cell= (map js/parseFloat (str/split (subs route-with-defaults 1) #"/"))))
-; (def param-inputs [mmx-threads overhead runtime])
-; (defn update-param! m[input value]]
-;   (if (not= value ""m
-;     (reset! input (vmvalue value))))
-; (def param-updates (mell= (run! update-param! (map vector param-inputs params))))
-;
-; (def route-updates (mell= (if (not (empty? route-from-values))
-;                             (update-route! (first route-from-values)))))
+(dosync
+  (def max-threads (param 16 js/parseFloat))
+  (def overhead (param 5 js/parseFloat))
+  (def runtime (param 60 js/parseFloat))
+  (print (macroexpand '(route max-threads overhead runtime)))
+  (route max-threads overhead runtime))
 
 (defelem number-input [{:keys [to name min max]} children]
-  (defn from-string [value] (js/parseFloat value))
+  (def from-string js/parseFloat)
   (defn check-validity [value]
     (let [value (from-string value)
           nan (not (js/isNaN value))
