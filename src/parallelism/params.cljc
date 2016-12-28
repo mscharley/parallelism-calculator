@@ -30,5 +30,7 @@
           param-values# (j/cell= (map vector params# values#))
           param-updates# (j/cell= (j/dosync
                                    (doall (for [[cell# value#] param-values#]
-                                            (reset! cell# value#)))))]
+                                            (reset! cell# value#)))))
+          route# (j/cell= (str "#" (str/join "/" [~@(->> params (partition 2) (map first) (map #(list :value %1)))])))
+          route-updates# (j/cell= (-> js/document (.-location) (.-hash) (set! route#)))]
       ())))
