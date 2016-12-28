@@ -17,19 +17,21 @@
                      (v/value %1)))
                  (reset! cell# %1)))))
 
-(defmacro route
+(defmacro defroute
   "Generate a routing structure based on a given list of parameters.
 
   Parameters passed in will be pre-populated with values from the current routing hash."
-  [& params]
-  `(let [params# (vector ~@params)
-         r# (h/route-cell (str "#" (str/join (map #(:value (deref %1)) (quote params#)) "/")))
-         ~(gensym) (print r#)
-         values# (j/cell= (-> r# (str/replace-first #"^#" "") (str/split #"/")))
-         ~(gensym) (print values#)
-         param-values# (j/cell= (map vector params# values#))
-         ~(gensym) (print param-values#)
-         param-updates# (j/cell= (j/dosync
-                                  (doall (for [[cell# value#] param-values#]
-                                           (reset! cell# value#)))))]
-     ()))
+  [params]
+  `(j/dosync
+    ~@(map (fn [[sym props]] `(def ~sym (param ~@props))) (partition 2 params))
+    (let [params# (vector ~@(->> params (partition 2) (first)))
+          r# (h/route-cell (str "#" (str/join (map #(:value (deref %1)) (quote params#)) "/")))
+          ~(gensym) (print r#)
+          values# (j/cell= (-> r# (str/replace-first #"^#" "") (str/split #"/")))
+          ~(gensym) (print values#)
+          param-values# (j/cell= (map vector params# values#))
+          ~(gensym) (print param-values#)
+          param-updates# (j/cell= (j/dosync
+                                   (doall (for [[cell# value#] param-values#]
+                                            (reset! cell# value#)))))]
+      ())))

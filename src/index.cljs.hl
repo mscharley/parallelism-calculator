@@ -4,14 +4,11 @@
             [parallelism.values :as v]
             [parallelism.params :as p]
             [parallelism.calc :as calc])
-  (:require-macros [parallelism.params :refer [param route]]))
+  (:require-macros [parallelism.params :refer [defroute]]))
 
-(dosync
-  (def max-threads (param 16 js/parseFloat))
-  (def overhead (param 5 js/parseFloat))
-  (def runtime (param 60 js/parseFloat))
-  (print (macroexpand '(route max-threads overhead runtime)))
-  (route max-threads overhead runtime))
+(defroute [max-threads [16 js/parseFloat]
+           overhead    [5  js/parseFloat]
+           runtime     [60 js/parseFloat]])
 
 (defelem number-input [{:keys [to name min max]} children]
   (def from-string js/parseFloat)
