@@ -221,10 +221,31 @@ parallelism.values.error = (function parallelism$values$error(value,message){
 
 return parallelism.values.__GT_Value(false,value,message);
 });
-parallelism.values.safe_value = (function parallelism$values$safe_value(value,default_value){
-if(cljs.core.truth_(cljs.core.cst$kw$valid.cljs$core$IFn$_invoke$arity$1(value))){
-return cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(value);
+if(typeof parallelism.values.safe_value !== 'undefined'){
 } else {
-return default_value;
+parallelism.values.safe_value = (function (){var method_table__7801__auto__ = (function (){var G__13030 = cljs.core.PersistentArrayMap.EMPTY;
+return (cljs.core.atom.cljs$core$IFn$_invoke$arity$1 ? cljs.core.atom.cljs$core$IFn$_invoke$arity$1(G__13030) : cljs.core.atom.call(null,G__13030));
+})();
+var prefer_table__7802__auto__ = (function (){var G__13031 = cljs.core.PersistentArrayMap.EMPTY;
+return (cljs.core.atom.cljs$core$IFn$_invoke$arity$1 ? cljs.core.atom.cljs$core$IFn$_invoke$arity$1(G__13031) : cljs.core.atom.call(null,G__13031));
+})();
+var method_cache__7803__auto__ = (function (){var G__13032 = cljs.core.PersistentArrayMap.EMPTY;
+return (cljs.core.atom.cljs$core$IFn$_invoke$arity$1 ? cljs.core.atom.cljs$core$IFn$_invoke$arity$1(G__13032) : cljs.core.atom.call(null,G__13032));
+})();
+var cached_hierarchy__7804__auto__ = (function (){var G__13033 = cljs.core.PersistentArrayMap.EMPTY;
+return (cljs.core.atom.cljs$core$IFn$_invoke$arity$1 ? cljs.core.atom.cljs$core$IFn$_invoke$arity$1(G__13033) : cljs.core.atom.call(null,G__13033));
+})();
+var hierarchy__7805__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$3(cljs.core.PersistentArrayMap.EMPTY,cljs.core.cst$kw$hierarchy,cljs.core.get_global_hierarchy());
+return (new cljs.core.MultiFn(cljs.core.symbol.cljs$core$IFn$_invoke$arity$2("parallelism.values","safe-value"),cljs.core.cst$kw$valid,cljs.core.cst$kw$default,hierarchy__7805__auto__,method_table__7801__auto__,prefer_table__7802__auto__,method_cache__7803__auto__,cached_hierarchy__7804__auto__));
+})();
 }
+parallelism.values.safe_value.cljs$core$IMultiFn$_add_method$arity$3(null,true,(function (v){
+var x__7710__auto__ = cljs.core.cst$kw$value.cljs$core$IFn$_invoke$arity$1(v);
+return cljs.core._conj(cljs.core.List.EMPTY,x__7710__auto__);
+}));
+parallelism.values.safe_value.cljs$core$IMultiFn$_add_method$arity$3(null,false,(function (v){
+return cljs.core.List.EMPTY;
+}));
+parallelism.values.with_default = (function parallelism$values$with_default(v,d){
+return cljs.core.last(cljs.core.conj.cljs$core$IFn$_invoke$arity$2((parallelism.values.safe_value.cljs$core$IFn$_invoke$arity$1 ? parallelism.values.safe_value.cljs$core$IFn$_invoke$arity$1(v) : parallelism.values.safe_value.call(null,v)),d));
 });
