@@ -1,48 +1,41 @@
 (page "index.html"
   (:require [cljsjs.c3]
             [clojure.string :as str]
-            [parallelism.values :as v]))
+            [parallelism.values :as v]
+            [parallelism.params :as p]
+            [parallelism.calc :as calc])
+  (:require-macros [parallelism.params :refer [defroute]]))
 
-(def default-overhead 5)
-(def overhead (cell (v/value default-overhead)))
-(def default-runtime 60)
-(def runtime (cell (v/value default-runtime)))
-(def default-max-threads 16)
-(def max-threads (cell (v/value default-max-threads)))
-(let [_ (cell= (print "overhead:" overhead))
-      _ (cell= (print "runtime:" runtime))
-      _ (cell= (print "max-threads:" max-threads))])
+(defroute [max-threads [16 js/parseFloat]
+           overhead    [5  js/parseFloat]
+           runtime     [60 js/parseFloat]])
 
-(def route (route-cell))
-(def route-with-defaults (cell= (if (= nil route) (str "#" default-max-threads "/" default-overhead "/" default-runtime) route)))
-
-(def params (cell= (map js/parseFloat (str/split (subs route-with-defaults 1) #"/"))))
-(def param-inputs [max-threads overhead runtime])
-(defn update-param! [[input value]]
-  (if (not= value "")
-    (reset! input (v/value value))))
-(def param-updates (cell= (run! update-param! (map vector param-inputs params))))
-
-(def route-from-values (cell= (str "#" (v/safe-value max-threads "") "/" (v/safe-value overhead "") "/" (v/safe-value runtime ""))))
-(def route-updates (cell= (set! (.-hash (.-location js/document)) route-from-values)))
-
-(defelem number-input [{:keys [to name]} children]
-  (defn from-string [value] (js/parseFloat value))
-  (defn validity [value] (not (js/isNaN (from-string value))))
+(defelem number-input [{:keys [to name min max]} children]
+  (def from-string js/parseFloat)
+  (defn check-validity [value]
+    (let [value (from-string value)
+          nan (not (js/isNaN value))
+          min-met (if min (>= value min) true)
+          max-met (if max (<= max value) true)]
+      (and nan min-met max-met)))
   (defn update-to! [value] (reset! to value))
   (let [val (cell (:value @to))
         update-to! (partial reset! to)
         update-val! (partial reset! val)
-        valid (cell= (validity val))
+        valid? (cell= (check-validity val))
         _ (cell= (update-val! (:value to)))
-        _ (cell= (update-to! (if valid (v/value (from-string val))
-                                       (v/error val "Value is invalid"))))]
+        _ (cell= (update-to! (if valid? (v/value (from-string val))
+                                        (v/error val "Value is invalid"))))]
     (div :class "field"
-      (div :class (cell= {:input true :invalid (not valid)})
+      (div :class (cell= {:input true :invalid (not valid?)})
         (label name)
         (input
+          :type "number"
+          :step "any"
+          :min min
+          :max max
           :value val
-          :input #(reset! val @%)
+          :input #(update-val! @%)
           :click #(this-as field (.select (js/jQuery field)))))
       children)))
 
@@ -59,28 +52,20 @@
                                 _ (cell= (.xgrids chart (clj->js xgrid)))]))]
     elem))
 
-(defn calc-efficiency [overhead runtime x]
-  (+ (* overhead x) (/ runtime x)))
-(defn calc-optimum-efficiency [overhead runtime]
-  (.sqrt js/Math (/ runtime overhead)))
-(defn calc-runtime [overhead runtime x]
-  (+ overhead (/ runtime x)))
-(defn calc-optimum-runtime [target runtime]
-  (.sqrt js/Math (/ runtime target)))
-(defn calc-optimum-runtime-range [runtime]
-  [(calc-optimum-runtime -2 runtime) (calc-optimum-runtime -1 runtime)])
-
-(def xs (cell= (let [max (v/safe-value max-threads 1)
+(def xs (cell= (let [max (-> max-threads
+                             (v/with-default 2))
                      step (/ max 50)]
-                (conj (range 1 max step) max))))
+                 (conj (range 1 max step) max))))
+(def xs-efficiency (cell= (map (partial calc/efficiency (:value overhead) (:value runtime)) xs)))
+(def xs-runtime (cell= (map (partial calc/runtime (:value overhead) (:value runtime)) xs)))
 (def graph-data (cell= {:type "spline" :x "x" :columns [(conj xs "x")
-                                                        (conj (map (partial calc-efficiency (:value overhead) (:value runtime)) xs) "Efficiency")
-                                                        (conj (map (partial calc-runtime (:value overhead) (:value runtime)) xs) "Wall clock runtime")]}))
-(def graph-xgrid (cell= (let [eff (.round js/Math (calc-optimum-efficiency (:value overhead) (:value runtime)))
-                              min-runtime (.round js/Math (calc-optimum-runtime 2 (:value runtime)))
-                              max-runtime (.round js/Math (calc-optimum-runtime 1 (:value runtime)))
-                              _ (print min-runtime max-runtime)]
-                          [{:value eff :text (str "Optimal efficiency: " eff)}
+                                                        (conj xs-efficiency "Efficiency")
+                                                        (conj xs-runtime "Wall clock runtime")]}))
+
+(def graph-xgrid (cell= (let [eff (.round js/Math (calc/optimum-efficiency (:value overhead) (:value runtime)))
+                              min-runtime (.round js/Math (calc/optimum-runtime 2 (:value runtime)))
+                              max-runtime (.round js/Math (calc/optimum-runtime 1 (:value runtime)))]
+                          [{:value eff         :text (str "Optimal efficiency at " eff)}
                            {:value min-runtime :text (str "Optimal runtime starting at " min-runtime)}
                            {:value max-runtime :text (str "Optimal runtime ending at " max-runtime)}])))
 
@@ -94,11 +79,11 @@
     (html-meta :name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"))
   (body
     (div :class "sidebar"
-      (number-input :to overhead    :name "Overhead:"
+      (number-input :to overhead    :name "Overhead:"    :min 1
         (p :class "description" "This is the overhead for starting a single parallel thread."))
-      (number-input :to runtime     :name "Runtime:"
+      (number-input :to runtime     :name "Runtime:"     :min 1
         (p :class "description" "This is the total runtime for the work you have to do."))
-      (number-input :to max-threads :name "Max Threads:"
+      (number-input :to max-threads :name "Max Threads:" :min 2
         (p :class "description" "The maximum number of threads in your algorithm.")))
     (div :class "graph-wrapper"
       (graph :data graph-data

@@ -11,7 +11,14 @@
   "Create a new error object."
   (->Value false value message))
 
-(defn safe-value [value default-value]
-  (if (:valid value)
-    (:value value)
-    default-value))
+(defmulti safe-value :valid)
+(defmethod safe-value true [v]
+  (list (:value v)))
+(defmethod safe-value false [v]
+  ())
+
+(defn with-default [v d]
+  (-> v
+      (safe-value)
+      (conj d)
+      (last)))

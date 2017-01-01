@@ -21,7 +21,7 @@ body {
 .graph-wrapper {
   width: 1px;
   height: 100%;
-  flex: 1 1;
+  flex: 1 1 auto;
 }
 
 .graph {
@@ -52,7 +52,7 @@ body {
   padding: 2px 5px;
   width: 50px;
   height: 1.2em;
-  flex: 1 1;
+  flex: 1 1 auto;
 }
 
 .field .input input:focus {
@@ -60,8 +60,9 @@ body {
   background: #ddd;
 }
 
-.field .input.invalid input {
+.field .input.invalid input, .field .input input:invalid {
   background: #faa;
+  outline: 0;
 }
 
 .field .input.invalid input:focus {
